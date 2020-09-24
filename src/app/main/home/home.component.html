@@ -1,0 +1,32 @@
+<app-carousel></app-carousel>
+
+<div class="container">
+    <div class="row">
+        <div class="row">
+        <!-- loading -->
+            <div *ngIf="loading" class="col-sm-12">
+                <h1 class=" text-center">Loading...</h1>
+            </div>
+        <!-- Error -->
+            <div *ngIf="error" class="col-sm-12 alert alert-danger">
+                <p class="text-center">Something went wrong</p>
+            </div>
+        </div>
+        
+        <!-- Danh sách phim -->
+        <div *ngFor="let phim of danhSachPhim | slice: 0:5" class="col-sm-4">
+            <div class="card">
+                <img class="card-img-top" [src]="phim.hinhAnh" alt="">
+                <div class="card-body">
+                    <h4 class="card-title">{{ phim.tenPhim | uppercase}}</h4>
+                    <p class="card-text">{{ phim.moTa }}</p>
+                    <p>{{ phim.ngayKhoiChieu | date:"dd/MM/yyyy" }}</p>
+                    <p>{{ 45000 | currency: "VND" }}</p>
+                    <button class="btn btn-success" routerLink="/detail/{{ phim.maPhim }}">Chi tiết</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-news></app-news>

@@ -1,0 +1,49 @@
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Mã phim</th>
+            <th>Tên Phim</th>
+            <th>Mô tả</th>
+            <th>Ngày khởi chiếu</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let phim of danhSachPhim">
+            <td> {{ phim.maPhim }} </td>
+            <td> {{ phim.tenPhim }} </td>
+            <td> {{ phim.moTa }} </td>
+            <td> {{ phim.ngayKhoiChieu }} </td>
+        </tr>
+    </tbody>
+</table>
+<!-- Cách 1  -->
+<!-- <nav aria-label="Page navigation">
+  <ul class="pagination justify-content-center">
+    <li *ngFor="let page of [].constructor(totalPages); let idx = index" 
+        class="page-item" 
+        (click)="changePage(idx + 1)"
+    >
+        <a class="page-link">{{ idx +1 }}</a>
+    </li>
+  </ul>
+</nav> -->
+<!-- Cách 2 -->
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+      <li *ngFor="let page of [].constructor(totalPages); let idx = index" 
+          class="page-item"
+          [ngClass]="{active: idx + 1 === currentPage}"
+          routerLink="/admin/movies"
+          [queryParams]="{page: idx + 1}"
+      >
+          <a class="page-link">{{ idx +1 }}</a>
+      </li>
+    </ul>
+</nav>
+<hr/>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addMovie">
+    Thêm phim
+</button>
+  <app-add-movie (added)="handleAddMovie()"></app-add-movie>

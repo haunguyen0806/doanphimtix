@@ -1,0 +1,52 @@
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms'
+import { MoviesService } from '../../core/services/movies.service'
+@Component({
+  selector: 'app-add-movie',
+  templateUrl: './add-movie.component.html',
+  styleUrls: ['./add-movie.component.scss']
+})
+export class AddMovieComponent implements OnInit {
+  @Output() added = new EventEmitter();
+  form: FormGroup;
+
+  constructor(private moviesSerie: MoviesService) {
+    this.form = new FormGroup({
+      tenPhim: new FormControl(''),
+      biDanh: new FormControl(''),
+      trailer: new FormControl(''),
+      hinhAnh: new FormControl(''),
+      moTa: new FormControl(''),
+      ngayKhoiChieu: new FormControl(''),
+    })
+   }
+
+  ngOnInit(): void {
+  }
+
+  handleUploadFile(evt){
+    console.log(evt.target.files);
+    console.log(evt.target.value);
+    // setValue là phải set cho toàn bộ ô input
+    // this.form.setValue({
+    //   hinhAnh: evt.target.files[0]
+    // });
+    this.form.patchValue({
+      hinhAnh: evt.target.files[0]
+    })
+    console.log(this.form.value);
+  }
+  handleAddMovie(){
+    this.form.markAllAsTouched();
+    if(this.form.invalid) return ;
+
+    //Gọi API thêm phim
+    this.moviesSerie.themPhim(this.form.value).subscribe({
+      complete: () => {
+        // Output ra thằng cha để nó gọi API lấy danh sách phim
+        this.added.emit(); //băn event đã thêm phim thành công
+      }
+    })
+  }
+
+}
